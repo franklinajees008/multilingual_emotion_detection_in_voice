@@ -1,0 +1,85 @@
+Multilingual Emotion Detection in Voice
+This project demonstrates a pipeline that performs speech transcription and emotion detection from voice recordings. It leverages OpenAI’s Whisper for multilingual transcription and audio feature extraction (e.g., MFCCs, pitch) to classify emotions using traditional machine learning models like SVM.
+
+🧠 Key Features
+Multilingual speech-to-text using the Whisper model.
+
+Audio feature extraction using librosa (MFCC and pitch).
+
+Emotion classification using a Support Vector Machine (SVM).
+
+Optionally supports .mp4 video files by extracting audio using moviepy.
+
+📦 Dependencies
+Install the required libraries:
+
+bash
+Copy
+Edit
+pip install openai-whisper librosa scikit-learn moviepy
+🗂️ Project Structure
+Step 1: Transcription with Whisper
+Loads Whisper's "base" model to transcribe spoken audio and detect its language:
+
+python
+Copy
+Edit
+model = whisper.load_model("base")
+result = model.transcribe(audio_path)
+Step 2: Audio Feature Extraction
+Uses librosa to extract:
+
+MFCCs (Mel-frequency cepstral coefficients)
+
+Pitch
+
+These features are summarized using mean and standard deviation to form the feature vector for classification.
+
+python
+Copy
+Edit
+mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
+pitch, _ = librosa.core.piptrack(y=y, sr=sr)
+Step 3: Emotion Classification
+Encodes emotion labels.
+
+Trains a Support Vector Classifier (SVC).
+
+Predicts emotion based on audio features.
+
+python
+Copy
+Edit
+model = SVC(kernel="linear")
+model.fit(X_train, y_train)
+prediction = model.predict([features])
+📂 Input Format
+Audio files (.wav, .mp3) for speech and emotion analysis.
+
+Video files (.mp4) are supported by extracting the audio portion with moviepy.
+
+🚀 How to Use
+Upload or provide a path to an audio/video file.
+
+Run the transcription function to extract spoken text and language.
+
+Extract features from the audio.
+
+Train or load a classifier.
+
+Predict and print the detected emotion.
+
+🔄 Example Workflow
+python
+Copy
+Edit
+text, lang = transcribe_audio("audio_sample.wav")
+features = extract_audio_features("audio_sample.wav")
+emotion = model.predict([features])
+print("Detected Emotion:", emotion)
+📈 Future Enhancements
+Use deep learning models (e.g., CNN, RNN) for better emotion recognition accuracy.
+
+Add visualizations of emotions over time.
+
+Integrate multilingual emotion datasets.
